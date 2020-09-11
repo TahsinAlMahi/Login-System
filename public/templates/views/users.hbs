@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="css/style.css">
+	<title>{{title}}</title>
+</head>
+
+<body>
+	<div class="content-wrapper container-fluid d-flex flex-column align-items-center">
+		<header class="mt-5 mb-3">
+			{{title}}
+		</header>
+
+		<div>
+			<table class="table table-bordered">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Email</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each users}}
+					<tr>
+						<td>{{this.name}}</td>
+						<td>{{this.email}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
+
+		<hr>
+
+		<footer class="footer text-center">
+			{{>footer}}
+		</footer>
+	</div>
+
+	{{>scripts}}
+</body>
+
+</html>

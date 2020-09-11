@@ -1,0 +1,36 @@
+.content-wrapper {
+  height: 100vh;
+}
+
+header {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.row {
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-box {
+  position: fixed;
+  z-index: 100;
+}
+
+.main {
+  height: 100vh;
+}
+
+p {
+  text-align: justify;
+}
+
+@media screen and (min-width: 768px) {
+  .sidebar-box {
+      height: 100vh;
+  }
+}
+
+footer {
+  font-family: 'Courier New', Courier, monospace;
+}
