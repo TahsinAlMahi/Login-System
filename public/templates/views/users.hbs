@@ -4,22 +4,21 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
 	<link rel="stylesheet" href="css/style.css">
 	<title>{{title}}</title>
 </head>
 
 <body>
-	<div class="content-wrapper container-fluid d-flex flex-column align-items-center">
-		<header class="mt-5 mb-3">
-			{{title}}
-		</header>
+	{{>header}}
 
-		<div>
+	<div class="row">
+		<div id="sidebarMenu" class="sidebar-box col-md-3 col-lg-2 d-md-block bg-dark collapse">
+			{{>sidebar}}
+		</div>
+		<div class="main col-md-9 ml-sm-auto col-lg-10 px-md-4 pt-3 bg-light">
+			<h1 class="h2">All Users</h1>
+			<hr>
 			<table class="table table-bordered">
 				<thead class="thead-dark">
 					<tr>
@@ -37,12 +36,6 @@
 				</tbody>
 			</table>
 		</div>
-
-		<hr>
-
-		<footer class="footer text-center">
-			{{>footer}}
-		</footer>
 	</div>
 
 	{{>scripts}}

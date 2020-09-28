@@ -9,13 +9,10 @@ const {authentication, secureAuthentication} = require('./authentication/auth')
 
 const app = express()
 
-const publicDirectory = path.join(__dirname, 'public')
-const viewsPath = path.join(__dirname, '/public/templates/views')
-const partialsPath = path.join(__dirname, '/public/templates/partials')
-
+app.use(express.static('./public'))
 app.set('view engine', 'hbs')
-app.set('views', viewsPath)
-hbs.registerPartials(partialsPath)
+app.set('views', './public/templates/views')
+hbs.registerPartials('./public/templates/partials')
 
 app.use(function (req, res, next) {
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate')
@@ -29,7 +26,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
-app.use(express.static(publicDirectory))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(passport.initialize())
@@ -46,7 +42,6 @@ app.post('/register', async function(req, res) {
         const user = new User(req.body)
         await user.save()
         res.redirect('/')
-        console.log('Registration Succesfull!')
     } catch (error) {
         res.redirect('/')
         console.log(error)
@@ -55,17 +50,10 @@ app.post('/register', async function(req, res) {
 
 app.post('/login', async function(req, res, next) {
     await passport.authenticate('local', {
-      successRedirect: '/dashboard',
+      successRedirect: '/profile',
       failureRedirect: '/'
     })(req, res, next)
   })
-
-app.get('/dashboard', secureAuthentication, function(req, res) {
-    res.render('dashboard.hbs', {
-        title: 'Dashboard',
-        user: req.user
-    })
-})
 
 app.get('/profile', secureAuthentication, function(req, res) {
     res.render('profile.hbs', {
@@ -77,10 +65,9 @@ app.get('/profile', secureAuthentication, function(req, res) {
 app.get('/logout', function(req, res) {
     req.logout()
     res.redirect('/')
-    console.log('Logged out')
 })
 
-app.get('/users', async function(req, res) {
+app.get('/users', secureAuthentication, async function(req, res) {
     try {
         const users = await User.find()
         res.render('users.hbs', {
