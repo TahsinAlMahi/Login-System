@@ -8,13 +8,11 @@ const authentication = function() {
         User.findOne({ email: email }, async function (error, user) {
             if (error) { return done(error) }
             if (!user) {
-                console.log('Email not registered.')
                 return done(null, false)
             }
 
             const isMatch = await bcrypt.compare(password, user.password)
             if (!isMatch) {
-                console.log('Password did not match.')
                 return done(null, false)
             }
 

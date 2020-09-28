@@ -3,6 +3,7 @@ const express = require('express')
 const hbs = require('hbs')
 const passport = require('passport')
 const session = require('express-session')
+const flash = require('connect-flash')
 require('./db/mongoose')
 const User = require('./models/user')
 const {authentication, secureAuthentication} = require('./authentication/auth')
@@ -26,10 +27,17 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+app.use(flash())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(function(req, res, next) {
+    res.locals.errorMessage = req.error
+    res.locals.successMessage = req.success
+    next()
+})
 
 app.get('/', function(req, res) {
     res.render('index.hbs', {
@@ -41,10 +49,9 @@ app.post('/register', async function(req, res) {
     try {
         const user = new User(req.body)
         await user.save()
-        res.redirect('/')
+        res.redirect('back')
     } catch (error) {
         res.redirect('/')
-        console.log(error)
     }
 })
 
@@ -58,7 +65,7 @@ app.post('/login', async function(req, res, next) {
 app.get('/profile', secureAuthentication, function(req, res) {
     res.render('profile.hbs', {
         title: 'Profile',
-        user: req.user
+        user: req.user,
     })
 })
 
